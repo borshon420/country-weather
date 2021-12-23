@@ -13,11 +13,6 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      {/* <TodoForm
-          handleSubmit={handleSubmit}
-          setUsers={setUsers}
-      />
-      <TodoList users={users}/> */}
       <Router>
       <Routes>
           <Route path="/" element={<CountryForm />}>

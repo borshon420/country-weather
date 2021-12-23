@@ -1,0 +1,11 @@
+.country-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.country-content p {
+    margin-right: 15px;
+}

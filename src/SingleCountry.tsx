@@ -1,5 +1,7 @@
+import { Button, CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import "./SingleCountry.css";
 
 export interface SingleCountrys {
   capital: string[];
@@ -25,7 +27,7 @@ const SingleCountry: React.FC = () => {
 
   const [countryLoading, setCountryLoading] = useState<boolean>(false);
   const [weatherLoading, setWeatherLoading] = useState<boolean>(false);
- 
+
   useEffect(() => {
     submit();
   }, []);
@@ -62,12 +64,10 @@ const SingleCountry: React.FC = () => {
     )
       .then((res) => res.json())
       .then((data) => setWeather(data.current));
-      
   };
 
   // capitalWheather();
   const handleWeather = () => {
-      
     setWeatherLoading(true);
     capitalWheather();
     setWeatherLoading(false);
@@ -75,29 +75,51 @@ const SingleCountry: React.FC = () => {
 
   return (
     <div>
-      <h1>Single Country</h1>
+      <h1 style={{ fontWeight: 500, marginTop: 10 }}>Country Name: {name}</h1>
       {countryLoading ? (
-        <p>Loading...</p>
+        <p><CircularProgress /></p>
       ) : country ? (
-        <div>
-          <p>{country.capital[0]}</p>
-          <p>{country.population}</p>
-          <p>{country.latlng}</p>
-          <img style={{ width: "500px" }} src={country?.flags.svg} alt="" />
+
+        <div className="country-container">
+          <div className="country-content">
+            <p>Capital: {country.capital[0]}</p>
+            <p>Population: {country.population}</p>
+            <p>Latlng: {country.latlng}</p>
+          </div>
+          <img style={{ width: "50%" }} src={country?.flags.svg} alt="" />
         </div>
+
       ) : (
         <h3>Country not found by name: {name}</h3>
       )}
 
-      {country && <button onClick={handleWeather}>Capital Weather</button>}
-      {weatherLoading ? <p>Loading...</p> : 
-      weather && <div>
-      <p>Temperature: {weather?.temperature}</p>
-      <p>Percip: {weather?.precip}</p>
-      <p>Wind Speed: {weather?.wind_speed}</p>
-      <img style={{ width: "50px" }} src={weather?.weather_icons} alt="" />
-      </div>}  
-      
+      {country && (
+        <Button
+          sx={{ width: "50%", mt: 3 }}
+          onClick={handleWeather}
+          variant="outlined"
+          size="large"
+        >
+          Capital Weather
+        </Button>
+      )}
+      {weatherLoading ? (
+        <p>Loading...</p>
+      ) : (
+
+        weather && (
+          <div className="country-content">
+            <p>Temperature: {weather?.temperature}</p>
+            <p>Percip: {weather?.precip}</p>
+            <p>Wind Speed: {weather?.wind_speed}</p>
+            <img
+              style={{ width: "50px", borderRadius: "100%" }}
+              src={weather?.weather_icons}
+              alt=""
+            />
+          </div>
+        )
+      )}
     </div>
   );
 };
